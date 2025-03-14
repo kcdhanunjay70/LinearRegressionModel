@@ -1,0 +1,164 @@
+#  Expected Salary for fresher based on company employers salary
+
+# The scenario is you are a HR officer, you got a candidate with 5 years of experience.
+# Then what is the best salary you should offer to him?”
+# Importing Packages/Libraries
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+data=pd.read_csv("E:/Github/SalaryPredLinerReg.csv")
+data
+
+Getting Overview of Dataset
+1. getting Datatypes of Columns
+data.dtypes
+YearsExperience    float64
+Salary               int64
+dtype: object
+
+2. getting size of Dataframes(rows x Columns)
+print(data.size)
+60
+
+3. getting the number of rows and columns in the dataframe
+data.shape
+(30, 2)
+
+4. getting the dimentions of the dataframe
+data.ndim
+2
+
+5. getting Summery of Dataset
+data.info()
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 30 entries, 0 to 29
+Data columns (total 2 columns):
+ #   Column           Non-Null Count  Dtype  
+---  ------           --------------  -----  
+ 0   YearsExperience  30 non-null     float64
+ 1   Salary           30 non-null     int64  
+dtypes: float64(1), int64(1)
+memory usage: 612.0 bytes
+
+6. Informaton of Data set
+data.info
+
+
+7.head() Return the first 5 rows of the DataFrame by default.
+data.head()
+
+8. head() Return the first n rows of the DataFrame.
+data.head(10)
+
+9. head() Returning entire size of the DataFrame.
+data.head(np.size(data))
+
+
+10.tail() Return the last 5 rows of the DataFrame by default.
+data.tail()
+
+11. tail() Return the last 10 rows of the DataFrame.
+data.tail(10)
+
+12. tail() Returning entire rows of the DataFrame.
+
+II. Data Pre-processing
+1. Checking NULL Values and count
+print(data.isna())
+
+2. Categorical to Numerical Values
+print(data.isna().astype(int))
+ 
+3. Reading Particular Column data
+
+4. Converting Particular Column data to int
+data['YearsExperience'].astype(int)
+
+5. Checking Particular Column data NULL Values
+data['YearsExperience'].isna().astype(int)
+
+6. Checking Particular Column data
+data['Salary']
+
+III. Linear Regression Initialization
+#get a copy of dataset exclude last column
+# X is first column of dataset
+X = data.iloc[:, :-1].values 
+
+X
+
+y = data.iloc[:, 1].values
+
+y
+array([ 39343,  46205,  37731,  43525,  39891,  56642,  60150,  54445,
+        64445,  57189,  63218,  55794,  56957,  57081,  61111,  67938,
+        66029,  83088,  81363,  93940,  91738,  98273, 101302, 113812,
+       109431, 105582, 116969, 112635, 122391, 121872], dtype=int64)
+
+# # # Spilting data
+# Splitting the dataset into the Training set and Test set
+from sklearn.model_selection import train_test_split 
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=1/3, random_state=0)
+
+# # # # Fitting Simple Linear Regression to the Training set
+
+# # Predicting the result of 5 Years Experience
+
+# Fitting Simple Linear Regression to the Training set
+from sklearn.linear_model import LinearRegression
+regressor = LinearRegression()
+regressor.fit(X_train, y_train)
+
+  LinearRegression?i
+LinearRegression()
+# Predicting the result of 5 Years Experience
+from sklearn.linear_model import LinearRegression
+y_pred = regressor.predict(X_test)
+y_pred
+
+array([ 40835.10590871, 123079.39940819,  65134.55626083,  63265.36777221,
+       115602.64545369, 108125.8914992 , 116537.23969801,  64199.96201652,
+        76349.68719258, 100649.1375447 ])
+# Predicting the result of 5 Years Experience
+y_pred = regressor.predict([[5]])
+y_pred
+
+array([73545.90445964])
+# # #  intercept and slope of a simple linear regression model in Python using scikit-learn
+
+# print the intercept and slope
+from sklearn.linear_model import LinearRegression
+print("Intercept:",regressor.intercept_)
+print("Slope:",regressor.coef_)
+
+print(regressor.get_params())
+Intercept: 26816.19224403119
+Slope: [9345.94244312]
+{'copy_X': True, 'fit_intercept': True, 'n_jobs': None, 'positive': False}
+# # # Visualizing the Training set results
+
+# Visualizing the Training set results
+viz_train = plt
+viz_train.scatter(X_train, y_train, color='red')
+viz_train.plot(X_train, regressor.predict(X_train), color='blue')
+viz_train.title('Salary VS Experience (Training set)')
+viz_train.xlabel('Year of Experience')
+viz_train.ylabel('Salary')
+viz_train.show()
+
+# # Visualizing the Test set results
+
+# Visualizing the Test set results
+viz_test = plt
+viz_test.scatter(X_test, y_test, color='red')
+viz_test.plot(X_train, regressor.predict(X_train), color='blue')
+viz_test.title('Salary VS Experience (Test set)')
+viz_test.xlabel('Year of Experience')
+viz_test.ylabel('Salary')
+viz_test.show()
+
+
+# In[ ]:
+
+
